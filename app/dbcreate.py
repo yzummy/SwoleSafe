@@ -1,4 +1,4 @@
-from app.dbandapi import db, User, BodyPart, Exercise
+from main import db, User, BodyPart, Exercise
 
 if __name__ == '__main__':
     db.drop_all()
