@@ -4,6 +4,7 @@ from flask_restful import Resource, Api, reqparse
 from flask_marshmallow import Marshmallow
 import os
 import json
+from flask_cors import CORS
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -13,6 +14,8 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+cors = CORS(app)
 
 ma = Marshmallow(app)
 
