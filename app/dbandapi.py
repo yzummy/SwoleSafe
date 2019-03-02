@@ -87,11 +87,29 @@ class UsersResource(Resource):
         # parser.add_argument('email')
         parser.add_argument('bodypart', type=str, action='append')
         args = parser.parse_args()
+
+        user_exists = User.query.filter_by(username=args["username"]).first()
+        if user_exists:
+            return "User already exists", 409
+
         new_user = User(username=args['username'])
         for bp in args['bodypart']:
             print(bp)
+            new_bp = BodyPart.query.filter_by(name=bp.lower()).first()
+            print(new_bp)
+            if not new_bp:
+                print("Could not find body part")
+                return "Could not find body part", 409
+
+            new_user.targets.append(new_bp)
+
         db.session.add(new_user)
         db.session.commit()
+
+        user_schema = UserSchema()
+        new_user = User.query.filter_by(username=args['username'])
+        response = user_schema.jsonify(new_user)
+        print(response)
         return "Added new user", 201
 
 
@@ -100,7 +118,6 @@ class ExercisesResource(Resource):
         exercises = Exercise.query.all()
         exercises_schema = ExerciseSchema(many=True)
         return exercises_schema.jsonify(exercises)
-
 
 
 api.add_resource(UserResource, '/user/<user_id>')
