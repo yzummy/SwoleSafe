@@ -16,11 +16,12 @@ if __name__ == '__main__':
     db.session.add(e1)
     db.session.add(e2)
 
-    u1 = User(username="foo")
+    u1 = User(username="ArnoldSchwazzaneger123")
     u1.targets.append(bp1)
 
-    u2 = User(username="FredJones")
+    u2 = User(username="DwanedaRockJohnson")
     u2.targets.extend([bp1, bp2])
+
     db.session.add_all([u1, u2])
 
 

@@ -84,10 +84,12 @@ class UsersResource(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username')
-        parser.add_argument('email')
-        parser.add_argument('password')
+        # parser.add_argument('email')
+        parser.add_argument('bodypart', type=str, action='append')
         args = parser.parse_args()
-        new_user = User(username=args['username'], password=args['password'])
+        new_user = User(username=args['username'])
+        for bp in args['bodypart']:
+            print(bp)
         db.session.add(new_user)
         db.session.commit()
         return "Added new user", 201
