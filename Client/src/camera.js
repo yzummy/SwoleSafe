@@ -4,7 +4,13 @@ import ReactDOM from "react-dom";
 import { drawBoundingBox, drawKeypoints, drawSkeleton } from "./demo_util";
 import axios from "axios";
 import { red } from "ansi-colors";
-
+import { Tabs } from "antd";
+import "antd/dist/antd.css";
+import "../CSS/ListEx.css";
+import bicep_curl from "../Images/bicep_curl.gif";
+import front_raise from "../Images/front_raise.gif";
+import squat from "../Images/squat.gif";
+import push_up from "../Images/push_up.gif";
 const warnMsgStyle = {
   color: red
 };
@@ -13,6 +19,7 @@ const videoWidth = 600;
 const videoHeight = 500;
 var count1 = 0;
 var count2 = 0;
+var currentExercise = 1;
 var warn1 = document.getElementById("warning1");
 var warn2 = document.getElementById("warning2");
 
@@ -133,43 +140,47 @@ function detectPoseInRealTime(video, net) {
           const data = new FormData();
           data.append("pose", blob);
 
-          axios.post("http://127.0.0.1:5002/poseup", data).then(response => {
-            console.log(response.data);
-            if (response.data.tooMuchRotation === 1) {
-              ReactDOM.render(
-                <AdviceMessage
-                  content={
-                    "Your upper arm shows too much rotation! Try hold the upper arm still!"
-                  }
-                />,
-                Warn1
-              );
-              count1 = 20;
-            } else {
-              if (count1 == 0) {
+          axios
+            .post(
+              "http://127.0.0.1:5002/" + demos[currentExercise - 1].request,
+              data
+            )
+            .then(response => {
+              console.log(response.data);
+              if (response.data.e1 === 1) {
                 ReactDOM.render(
-                  <AdviceMessage content={"You are doing great!"} />,
+                  <AdviceMessage content={response.data.warn0} />,
                   Warn1
                 );
+                count1 = 20;
               } else {
-                count1 -= 1;
+                if (count1 == 0) {
+                  ReactDOM.render(
+                    <AdviceMessage content={"You are doing great!"} />,
+                    Warn1
+                  );
+                } else {
+                  count1 -= 1;
+                }
               }
-            }
 
-            if (response.data.notHighEnough === 1) {
-              ReactDOM.render(
-                <AdviceMessage content={"Curl higher!!!"} />,
-                Warn2
-              );
-              count2 = 20;
-            } else {
-              if (count2 == 0) {
-                ReactDOM.render(<AdviceMessage content={"Keep up!"} />, Warn2);
+              if (response.data.e2 === 1) {
+                ReactDOM.render(
+                  <AdviceMessage content={response.data.warn1} />,
+                  Warn2
+                );
+                count2 = 20;
               } else {
-                count2 -= 1;
+                if (count2 == 0) {
+                  ReactDOM.render(
+                    <AdviceMessage content={"Keep up!"} />,
+                    Warn2
+                  );
+                } else {
+                  count2 -= 1;
+                }
               }
-            }
-          });
+            });
         }
         minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
         minPartConfidence = +guiState.singlePoseDetection.minPartConfidence;
@@ -261,3 +272,50 @@ class AdviceMessage extends React.Component {
 
 let Warn1 = document.getElementById("warning1");
 let Warn2 = document.getElementById("warning2");
+
+let listEx = document.getElementById("listEx");
+const TabPane = Tabs.TabPane;
+
+function changeTab(key) {
+  console.log("clicked detect ", key, demos[key - 1]);
+  currentExercise = key;
+}
+var demos = [
+  { index: 1, name: "Bicep Curl (16x)", gif: bicep_curl, request: "bicepCurl" },
+  {
+    index: 2,
+    name: "Front Raise (10x)",
+    gif: front_raise,
+    request: "frontRaise"
+  },
+  { index: 3, name: "Squat (8x)", gif: squat, request: "deepSquat" },
+  { index: 4, name: "Pushup (10x)", gif: push_up, request: "pushUp" }
+];
+async function generateList() {
+  axios
+    .get("http://35.184.165.218/recommendation/1", {
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    })
+    .then(response => {
+      console.log(response.data);
+    });
+}
+generateList();
+ReactDOM.render(
+  <Tabs
+    defaultActiveKey="1"
+    tabPosition="left"
+    style={{ height: 500 }}
+    onChange={changeTab}
+  >
+    {demos.map(demo => (
+      <TabPane tab={demo.name} key={demo.index}>
+        <img src={demo.gif} className="center" />
+      </TabPane>
+    ))}
+  </Tabs>,
+
+  listEx
+);
