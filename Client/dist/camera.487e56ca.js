@@ -97210,7 +97210,7 @@ function detectPoseInRealTime(video, net) {
             } else {
               if (count1 == 0) {
                 _reactDom.default.render(_react.default.createElement(AdviceMessage, {
-                  content: "汪汪汪汪汪汪汪汪汪"
+                  content: "You are doing great!"
                 }), Warn1);
               } else {
                 count1 -= 1;
@@ -97226,7 +97226,7 @@ function detectPoseInRealTime(video, net) {
             } else {
               if (count2 == 0) {
                 _reactDom.default.render(_react.default.createElement(AdviceMessage, {
-                  content: "臭狗狗臭狗狗臭狗狗"
+                  content: "Keep up!"
                 }), Warn2);
               } else {
                 count2 -= 1;

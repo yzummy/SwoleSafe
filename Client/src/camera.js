@@ -148,7 +148,7 @@ function detectPoseInRealTime(video, net) {
             } else {
               if (count1 == 0) {
                 ReactDOM.render(
-                  <AdviceMessage content={"汪汪汪汪汪汪汪汪汪"} />,
+                  <AdviceMessage content={"You are doing great!"} />,
                   Warn1
                 );
               } else {
@@ -164,10 +164,7 @@ function detectPoseInRealTime(video, net) {
               count2 = 20;
             } else {
               if (count2 == 0) {
-                ReactDOM.render(
-                  <AdviceMessage content={"臭狗狗臭狗狗臭狗狗"} />,
-                  Warn2
-                );
+                ReactDOM.render(<AdviceMessage content={"Keep up!"} />, Warn2);
               } else {
                 count2 -= 1;
               }

@@ -21,6 +21,22 @@
         .dg {
           display: none;
         }
+      }
+      .row {
+        display: flex;
+      }
+
+      .column {
+        flex: 33.33%;
+        padding: 5px;
+      }
+      .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        /* width: 50%; */
+        height: 500px;
+
       }</style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
@@ -30,24 +46,28 @@
     <div id="loading">
       Loading the model...
     </div>
-    <div id="main" style="display:none">
-      <video id="video" playsinline="" style=" -moz-transform: scaleX(-1);
-        -o-transform: scaleX(-1);
-        -webkit-transform: scaleX(-1);
-        transform: scaleX(-1);
-        display: none;
-        ">
-        </video>
-        <canvas id="output">
-    </canvas></div>
+    <div class="row">
+      <div class="column">
+        <img src="/bicep_curl.342be22f.gif" class="center">
+      </div>
+      <div class="column">
+        <div id="main" style="display:none">
+          <video id="video" playsinline="" style=" -moz-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            display: none;
+            ">
+            </video>
+            <canvas id="output">
+          </canvas></div>
+        </div>
+    </div>
+
 
     <div id="warning1" style="color:red">
-      <!-- <h1 id="warning1">汪汪汪汪汪汪汪汪汪</h1>
-      <h1 id="warning2">臭狗狗臭狗狗臭狗狗</h1> -->
     </div>
     <div id="warning2" style="color:red">
-      <!-- <h1 id="warning1">汪汪汪汪汪汪汪汪汪</h1>
-      <h1 id="warning2">臭狗狗臭狗狗臭狗狗</h1> -->
     </div>
     <div class="footer">
       <div class="footer-text">
