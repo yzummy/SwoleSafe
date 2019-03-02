@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api, reqparse
 from flask_marshmallow import Marshmallow
 import os
+import json
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -126,19 +127,35 @@ class ExercisesResource(Resource):
         return "In post method of Exercises Resource"
 
 
-class UserExercisesResource(Resource):
-    # def get(self, username):
-    #     user = User.query.filter_by(username=username).first()
-    #     targets = []
-    #     for target_id in user.targets:
-    #         for ex in Exercise.query.all():
-    #             for
-    pass
+class ExerciseRecommendationResource(Resource):
+    def get(self, user_id):
+        user = User.query.filter_by(id=user_id).first()
+        target_set = set(user.targets)
+
+        user_exercises = []
+        for ex in Exercise.query.all():
+            for bp in ex.uses:
+                if bp in target_set:
+                    curr_ex_dict = {'exercise':ex.name}
+
+                    curr_ex_dict['length'] = 1
+                    if user.level == "beginner":
+                        curr_ex_dict['length'] = 1
+                    elif user.level == "intermediate":
+                        curr_ex_dict['length'] = 2
+                    elif user.level == "advanced":
+                        curr_ex_dict['length'] = 3
+
+                    user_exercises.append(curr_ex_dict)
+
+        print(user_exercises)
+        return json.dumps(user_exercises)
 
 
-api.add_resource(UserResource, '/user/<user_id>')
+api.add_resource(UserResource, '/user/<int:user_id>')
 api.add_resource(UsersResource, '/users/')
 api.add_resource(ExercisesResource, '/exercises/')
+api.add_resource(ExerciseRecommendationResource, '/recommendation/<int:user_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)

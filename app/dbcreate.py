@@ -24,10 +24,10 @@ if __name__ == '__main__':
     db.session.add_all([e1, e2, e3])
 
     u1 = User(username="ArnoldSchwazzaneger123", password="abc", level="advanced")
-    u1.targets.append(bp1)
+    u1.targets.append(bp5)
 
     u2 = User(username="DwanedaRockJohnson", password="123", level="beginner")
-    u2.targets.extend([bp1, bp2])
+    u2.targets.extend([bp2, bp3])
 
     db.session.add_all([u1, u2])
 
