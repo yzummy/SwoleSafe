@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Poseture Correction</title>
+    <style>.footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: black;
+      }
+
+      .footer-text {
+        max-width: 600px;
+        text-align: center;
+        margin: auto;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .footer-text,
+        .dg {
+          display: none;
+        }
+      }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+    <div id="info" style="display:none"></div>
+    <div id="loading">
+      Loading the model...
+    </div>
+    <div id="main" style="display:none">
+      <video id="video" playsinline="" style=" -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        display: none;
+        ">
+        </video>
+        <canvas id="output">
+    </canvas></div>
+
+    <div id="warning1" style="color:red">
+      <!-- <h1 id="warning1">汪汪汪汪汪汪汪汪汪</h1>
+      <h1 id="warning2">臭狗狗臭狗狗臭狗狗</h1> -->
+    </div>
+    <div id="warning2" style="color:red">
+      <!-- <h1 id="warning1">汪汪汪汪汪汪汪汪汪</h1>
+      <h1 id="warning2">臭狗狗臭狗狗臭狗狗</h1> -->
+    </div>
+    <div class="footer">
+      <div class="footer-text">
+        <p>
+          Hello you! Let's see how well your workout pose is!
+        </p>
+      </div>
+    </div>
+    <script src="/camera.da63e8d6.js"></script>
+
+  </body>
+</html>
