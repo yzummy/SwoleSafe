@@ -1,45 +1,45 @@
 .ant-modal.profileModal {
-    width: 80%;
+  width: 80%;
 }
 
 .ant-modal-body {
-    padding: 25px 40px;
-    font-weight: bold;
-    font-family:ans-serif
+  padding: 25px 40px;
+  font-weight: bold;
+  font-family: ans-serif;
 }
 
 .ant-row.ant-form-item.flexCon {
-    display: flex;
+  display: flex;
 }
 
 .ant-form-item-control-wrapper {
-    width: 50%;
+  width: 50%;
 }
 
 span.ant-input-affix-wrapper {
-    width: 100%;
+  width: 100%;
 }
 
 div#signup_rslider .ant-col-4 {
-    display: flex
+  display: flex;
 }
 
-.ant-col-4 .ant-input-number  {
-    margin-left: 0px !important;
+.ant-col-4 .ant-input-number {
+  margin-left: 0px !important;
 }
 
 .ant-modal-header {
-    background: #336F88;
-    height: 5rem;
+  background: #336f88;
+  height: 5rem;
 }
 
 .ant-modal-title {
-    text-align: center;
+  text-align: center;
 }
 
 .ant-modal-title {
-    padding-top:0.3rem;
-    color: white;
-    font-size:2rem;
-    font-family: "Comic Sans MS", cursive, sans-serif;
+  padding-top: 0.3rem;
+  color: white;
+  font-size: 2rem;
+  font-family: "Comic Sans MS", cursive, sans-serif;
 }

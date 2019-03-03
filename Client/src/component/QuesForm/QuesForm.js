@@ -95,6 +95,7 @@ class QuesForm extends React.Component {
           level: level
         })
         .then(() => {
+          sessionStorage.setItem("username", user);
           location.href = "/camera.html";
         });
     } catch (error) {

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SwoleSafe</title>
+    <style>
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: black;
+      }
+
+      .footer-text {
+        max-width: 600px;
+        text-align: center;
+        margin: auto;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .footer-text,
+        .dg {
+          display: none;
+        }
+      }
+      .row {
+        display: flex;
+      }
+
+      .column {
+        flex: 33.33%;
+        padding: 5px;
+      }
+
+
+      
+
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    <div id="info" style="display:none"></div>
+    <div id="loading">
+      Loading the model...
+    </div>
+    <div class="row">
+      <div class="column" id="listEx"  style="padding: 24px"></div>
+      <!-- <div class="column">
+        <img src="../Images/bicep_curl.gif" class="center">
+      </div> -->
+      <div class="column">
+        <div id="main" style="display:none; padding: 24px" >
+          <video id="video" playsinline style=" -moz-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            display: none;
+            ">
+            </video>
+            <canvas id="output" />
+          </div>
+        </div>
+    </div>
+
+
+    <div id="warning1" style="color:red">
+    </div>
+    <div id="warning2" style="color:red">
+    </div>
+    <div class="footer">
+      <div class="footer-text">
+        <p>
+          Hello you! Let's see how well your workout form is!
+        </p>
+      </div>
+    </div>
+    <script src="../src/camera.js"></script>
+
+  </body>
+</html>
