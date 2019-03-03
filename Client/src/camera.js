@@ -300,9 +300,9 @@ var demos = [
   { index: 4, name: "Pushup", number: 10, gif: push_up, request: "pushUp" }
 ];
 var demos_populated = [];
-function generateList() {
+function generateList(userID) {
   axios
-    .get("http://35.184.165.218/recommendation/3", {
+    .get("http://35.184.165.218/recommendation/" + String(userID), {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
@@ -351,4 +351,16 @@ function generateList() {
       );
     });
 }
-generateList();
+
+axios
+  .get(
+    "http://35.184.165.218/idfor/" + String(sessionStorage.getItem("username")),
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }
+  )
+  .then(response => {
+    generateList(String(response.data));
+  });
