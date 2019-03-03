@@ -6,6 +6,11 @@
   margin-right: auto;
   margin-top: auto;
   margin-bottom: auto;
-  max-height: 500px;
-  max-width: 500px;
+  max-height: 400px;
+  max-width: 400px;
+}
+
+.warn {
+  color: red;
+  text-align: center;
 }
