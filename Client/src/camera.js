@@ -4,7 +4,8 @@ import ReactDOM from "react-dom";
 import { drawBoundingBox, drawKeypoints, drawSkeleton } from "./demo_util";
 import axios from "axios";
 import { red } from "ansi-colors";
-import { Tabs } from "antd";
+import { Tabs, Progress } from "antd";
+
 import "antd/dist/antd.css";
 import "../CSS/ListEx.css";
 import bicep_curl from "../Images/bicep_curl.gif";
@@ -15,8 +16,8 @@ const warnMsgStyle = {
   color: red
 };
 
-const videoWidth = 600;
-const videoHeight = 500;
+const videoWidth = 500;
+const videoHeight = 400;
 var count1 = 0;
 var count2 = 0;
 var currentExercise = 1;
@@ -264,7 +265,7 @@ class AdviceMessage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Caution: {this.props.content}</h1>
+        <h1 className="warn">Caution: {this.props.content}</h1>
       </div>
     );
   }
@@ -281,41 +282,73 @@ function changeTab(key) {
   currentExercise = key;
 }
 var demos = [
-  { index: 1, name: "Bicep Curl (16x)", gif: bicep_curl, request: "bicepCurl" },
+  {
+    index: 1,
+    name: "Bicep Curl",
+    number: 10,
+    gif: bicep_curl,
+    request: "bicepCurl"
+  },
   {
     index: 2,
-    name: "Front Raise (10x)",
+    name: "Front Raise",
+    number: 10,
     gif: front_raise,
     request: "frontRaise"
   },
-  { index: 3, name: "Squat (8x)", gif: squat, request: "deepSquat" },
-  { index: 4, name: "Pushup (10x)", gif: push_up, request: "pushUp" }
+  { index: 3, name: "Squat", number: 10, gif: squat, request: "deepSquat" },
+  { index: 4, name: "Pushup", number: 10, gif: push_up, request: "pushUp" }
 ];
-async function generateList() {
+var demos_populated = [];
+function generateList() {
   axios
-    .get("http://35.184.165.218/recommendation/1", {
+    .get("http://35.184.165.218/recommendation/3", {
       headers: {
         "Access-Control-Allow-Origin": "*"
       }
     })
     .then(response => {
-      console.log(response.data);
+      JSON.parse(response.data).forEach(item => {
+        switch (item.exercise) {
+          case "Front Raise":
+            demos[1].number = item.length;
+            demos_populated.push(demos[1]);
+            break;
+          case "Bicep Curl":
+            demos[0].number = item.length;
+            demos_populated.push(demos[0]);
+            break;
+          case "Squat":
+            demos[2].number = item.length;
+            demos_populated.push(demos[2]);
+            break;
+          case "Pushup":
+            demos[3].number = item.length;
+            demos_populated.push(demos[3]);
+            break;
+        }
+        console.log(demos, demos_populated);
+      });
+
+      ReactDOM.render(
+        <Tabs
+          defaultActiveKey="1"
+          tabPosition="left"
+          style={{ height: "400px" }}
+          onChange={changeTab}
+        >
+          {demos_populated.map(demo => (
+            <TabPane
+              tab={demo.name + " (" + String(demo.number) + "x)"}
+              key={demo.index}
+            >
+              <img src={demo.gif} className="center" />
+            </TabPane>
+          ))}
+        </Tabs>,
+
+        listEx
+      );
     });
 }
 generateList();
-ReactDOM.render(
-  <Tabs
-    defaultActiveKey="1"
-    tabPosition="left"
-    style={{ height: 500 }}
-    onChange={changeTab}
-  >
-    {demos.map(demo => (
-      <TabPane tab={demo.name} key={demo.index}>
-        <img src={demo.gif} className="center" />
-      </TabPane>
-    ))}
-  </Tabs>,
-
-  listEx
-);
