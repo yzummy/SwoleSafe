@@ -54,6 +54,8 @@ class Exercise(db.Model):
     __tablename__ = 'exercise'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
+    base_reps = db.Column(db.Integer, nullable=False)
+    rep_incr = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(250))
     uses = db.relationship('BodyPart', secondary=uses, lazy='subquery',
                            backref=db.backref('exercise', lazy=True))
@@ -148,17 +150,22 @@ class ExerciseRecommendationResource(Resource):
                     seen_exercises.add(ex.name)
 
                     curr_ex_dict = {'exercise':ex.name}
-                    curr_ex_dict['length'] = 1
+                    curr_ex_dict['reps'] = 10
                     if user.level == "beginner":
-                        curr_ex_dict['length'] = 1
+                        curr_ex_dict['reps'] = ex.base_reps
                     elif user.level == "intermediate":
-                        curr_ex_dict['length'] = 2
+                        curr_ex_dict['reps'] = ex.base_reps + ex.rep_incr
                     elif user.level == "advanced":
-                        curr_ex_dict['length'] = 3
+                        curr_ex_dict['reps'] = ex.base_reps + 2 * ex.rep_incr
 
                     user_exercises.append(curr_ex_dict)
 
-        print(user_exercises)
+
+        if user.level == "intermediate":
+            user_exercises = user_exercises * 2
+        elif user.level == "advanced":
+            user_exercises = user_exercises * 3
+            
         return json.dumps(user_exercises)
 
 
