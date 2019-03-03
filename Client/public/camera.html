@@ -31,14 +31,7 @@
         flex: 33.33%;
         padding: 5px;
       }
-      .center {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        /* width: 50%; */
-        height: 500px;
 
-      }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
@@ -49,11 +42,12 @@
       Loading the model...
     </div>
     <div class="row">
-      <div class="column">
+      <div class="column" id="listEx"  style="padding: 24px"></div>
+      <!-- <div class="column">
         <img src="../Images/bicep_curl.gif" class="center">
-      </div>
+      </div> -->
       <div class="column">
-        <div id="main" style="display:none">
+        <div id="main" style="display:none; padding: 24px" >
           <video id="video" playsinline style=" -moz-transform: scaleX(-1);
             -o-transform: scaleX(-1);
             -webkit-transform: scaleX(-1);
