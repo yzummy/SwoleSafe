@@ -12,6 +12,8 @@ import bicep_curl from "../Images/bicep_curl.gif";
 import front_raise from "../Images/front_raise.gif";
 import squat from "../Images/squat.gif";
 import push_up from "../Images/push_up.gif";
+import pull_up from "../Images/pull_up.gif";
+
 const warnMsgStyle = {
   color: red
 };
@@ -23,7 +25,7 @@ var count2 = 0;
 var currentExercise = 1;
 var warn1 = document.getElementById("warning1");
 var warn2 = document.getElementById("warning2");
-
+var defaultID = 3;
 async function setupCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error(
@@ -142,10 +144,7 @@ function detectPoseInRealTime(video, net) {
           data.append("pose", blob);
 
           axios
-            .post(
-              "http://127.0.0.1:5002/" + demos[currentExercise - 1].request,
-              data
-            )
+            .post("http://35.185.80.27/" + demos[currentExercise].request, data)
             .then(response => {
               console.log(response.data);
               if (response.data.e1 === 1) {
@@ -278,8 +277,8 @@ let listEx = document.getElementById("listEx");
 const TabPane = Tabs.TabPane;
 
 function changeTab(key) {
-  console.log("clicked detect ", key, demos[key - 1]);
-  currentExercise = key;
+  console.log("clicked detect ", key, corresponding_exs[key]);
+  currentExercise = corresponding_exs[key];
 }
 var demos = [
   {
@@ -297,8 +296,10 @@ var demos = [
     request: "frontRaise"
   },
   { index: 3, name: "Squat", number: 10, gif: squat, request: "deepSquat" },
-  { index: 4, name: "Pushup", number: 10, gif: push_up, request: "pushUp" }
+  { index: 4, name: "Pushup", number: 10, gif: push_up, request: "pushUp" },
+  { index: 5, name: "pull_up", number: 10, gif: push_up, request: "pushUp" }
 ];
+var corresponding_exs = [];
 var demos_populated = [];
 function generateList(userID) {
   axios
@@ -308,25 +309,72 @@ function generateList(userID) {
       }
     })
     .then(response => {
+      var isFirst = true;
+      var count = 0;
       JSON.parse(response.data).forEach(item => {
         switch (item.exercise) {
           case "Front Raise":
-            demos[1].number = item.length;
-            demos_populated.push(demos[1]);
+            if (isFirst) {
+              currentExercise = 1;
+              isFirst = false;
+            }
+
+            demos_populated.push({
+              index: count,
+              name: "Front Raise",
+              number: item.reps,
+              gif: front_raise,
+              request: "frontRaise"
+            });
+            corresponding_exs.push(1);
             break;
           case "Bicep Curl":
-            demos[0].number = item.length;
-            demos_populated.push(demos[0]);
+            if (isFirst) {
+              currentExercise = 0;
+              isFirst = false;
+            }
+            demos_populated.push({
+              index: count,
+              name: "Bicep Curl",
+              number: item.reps,
+              gif: bicep_curl,
+              request: "bicepCurl"
+            });
+            corresponding_exs.push(0);
+
             break;
           case "Squat":
-            demos[2].number = item.length;
-            demos_populated.push(demos[2]);
+            if (isFirst) {
+              currentExercise = 2;
+              isFirst = false;
+            }
+            demos_populated.push({
+              index: count,
+              name: "Squat",
+              number: item.reps,
+              gif: squat,
+              request: "squat"
+            });
+            corresponding_exs.push(2);
+
             break;
           case "Pushup":
-            demos[3].number = item.length;
-            demos_populated.push(demos[3]);
+            if (isFirst) {
+              currentExercise = 3;
+              isFirst = false;
+            }
+            demos_populated.push({
+              index: count,
+              name: "Pushup",
+              number: item.reps,
+              gif: push_up,
+              request: "pushUp"
+            });
+            corresponding_exs.push(3);
+
             break;
         }
+        count += 1;
         console.log(demos, demos_populated);
       });
 
@@ -362,5 +410,6 @@ axios
     }
   )
   .then(response => {
-    generateList(String(response.data));
+    defaultID = String(response.data);
+    generateList(defaultID);
   });

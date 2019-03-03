@@ -8,10 +8,10 @@ from flask_cors import CORS
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from numpy import argmax, unique
-import json
 from convertData import convert
 from realTimeEvaluate import _bicep_curl, _front_raise, _squat, _push_up
 import numpy as np
+import json
 
 app = Flask(__name__)
 
