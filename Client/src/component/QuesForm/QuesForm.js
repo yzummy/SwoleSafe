@@ -8,19 +8,16 @@ import {
   withRouter
 } from "react-router-dom";
 import axios from "axios";
-
+import logo from "../../../Images/SwoleSafe-logo.png";
 // import {
 //   Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,
 // } from 'antd';
-
 // import Input from '../../component/input/Input';
 import { Radio } from "antd";
 import { Slider, InputNumber } from "antd";
 const RadioGroup = Radio.Group;
-
 import "antd/dist/antd.css";
 import "./QuesForm.css";
-
 import {
   Form,
   Input,
@@ -34,11 +31,9 @@ import {
   Button,
   AutoComplete
 } from "antd";
-
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
-
 class QuesForm extends React.Component {
   constructor(props) {
     super(props);
@@ -54,18 +49,15 @@ class QuesForm extends React.Component {
     this.handleLevelChange = this.handleLevelChange.bind(this);
     this.postForm = this.postForm.bind(this);
   }
-
   componentDidMount() {
     // To disabled submit button at the beginning.
     this.props.form.validateFields();
   }
-
   onChange(e) {
     this.setState({
       value: e.target.value
     });
   }
-
   onChangeSlider(sliderValue) {
     console.log("hi");
     console.log(sliderValue);
@@ -73,13 +65,11 @@ class QuesForm extends React.Component {
       inputValue: sliderValue
     });
   }
-
   handleLevelChange(value) {
     this.setState({
       level: value
     });
   }
-
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -95,7 +85,6 @@ class QuesForm extends React.Component {
       }
     });
   }
-
   postForm(user, password, bodyparts, level) {
     try {
       return axios
@@ -106,21 +95,19 @@ class QuesForm extends React.Component {
           level: level
         })
         .then(() => {
-          sessionStorage.setItem("username", user);
-
           location.href = "/camera.html";
         });
     } catch (error) {
       console.log(error);
     }
   }
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const { inputValue } = this.state;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <div className="blueBox box">
+          <img src={logo} className="logo" />
           <Row>
             <Col span={10}>
               <Form.Item label="Name" className="flexCon">
@@ -271,9 +258,7 @@ class QuesForm extends React.Component {
     );
   }
 }
-
 const WrappedQuesForm = Form.create({ name: "signup" })(QuesForm);
 // const quesContainer = document.getElementById("ques");
 // ReactDOM.render(<WrappedRegistrationForm />, quesContainer);
-
 export default WrappedQuesForm;
