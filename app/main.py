@@ -92,6 +92,7 @@ class UsersResource(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('username')
         parser.add_argument('password')
+        parser.add_argument('level')
         parser.add_argument('bodypart', type=str, action='append')
         args = parser.parse_args()
 
@@ -99,7 +100,7 @@ class UsersResource(Resource):
         if user_exists:
             return "User already exists", 409
 
-        new_user = User(username=args['username'], password=args['password'])
+        new_user = User(username=args['username'], password=args['password'], level=args['level'])
         for bp in args['bodypart']:
             print(bp)
             new_bp = BodyPart.query.filter_by(name=bp.lower()).first()
@@ -135,12 +136,18 @@ class ExerciseRecommendationResource(Resource):
         user = User.query.filter_by(id=user_id).first()
         target_set = set(user.targets)
 
+        #TODO: do this in a less hacky way
         user_exercises = []
+        seen_exercises = set()
         for ex in Exercise.query.all():
             for bp in ex.uses:
                 if bp in target_set:
-                    curr_ex_dict = {'exercise':ex.name}
+                    if ex.name in seen_exercises:
+                        continue
 
+                    seen_exercises.add(ex.name)
+
+                    curr_ex_dict = {'exercise':ex.name}
                     curr_ex_dict['length'] = 1
                     if user.level == "beginner":
                         curr_ex_dict['length'] = 1
@@ -155,10 +162,19 @@ class ExerciseRecommendationResource(Resource):
         return json.dumps(user_exercises)
 
 
+class UserIdResource(Resource):
+    def get(self, username):
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            return "Could not find user with that username", 409
+        return json.dumps(user.id)
+
+
 api.add_resource(UserResource, '/user/<int:user_id>')
 api.add_resource(UsersResource, '/users/')
 api.add_resource(ExercisesResource, '/exercises/')
 api.add_resource(ExerciseRecommendationResource, '/recommendation/<int:user_id>')
+api.add_resource(UserIdResource, '/idfor/<string:username>')
 
 if __name__ == '__main__':
     app.run(debug=True)
