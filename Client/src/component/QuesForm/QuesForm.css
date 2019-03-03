@@ -46,3 +46,11 @@ button.ant-btn.sign-up.ant-btn-primary {
 .signUpBtn .ant-form-item-control-wrapper {
     width: 100%;
 }
+
+img.logo {
+    position: absolute;
+    width: 40%;
+    left: 65%;
+    right: 0;
+    bottom: 65%;
+}

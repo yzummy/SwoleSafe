@@ -38,6 +38,8 @@ div#signup_rslider .ant-col-4 {
 }
 
 .ant-modal-title {
+    padding-top:0.3rem;
     color: white;
-    font-size:1.5rem
+    font-size:2rem;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }

@@ -1,0 +1,66 @@
+body {
+    background-color: #25282B !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modal button {
+    background-color: #97C64D !important;
+    border-radius: 0.3rem;
+}
+
+#modal {
+    padding-top: 2rem;
+}
+
+#title {
+    padding-top: 1.8rem;
+    font-size: 5.5rem;
+    font-family: Geneva, sans-serif;
+    line-height: 6rem;
+    color: #FDFEFD;
+    text-align: center;
+}
+
+#subtitle {
+    padding-top: 6.5rem;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 1.2rem;
+    color: #99CD52;
+}
+
+#intro {
+    padding-top: 1rem;
+    color: #707376;
+    width: 60%
+}
+
+table {
+    color: floralwhite;
+    font-size: 1rem;
+}
+
+#td1 {
+    border-right: solid;
+    border-color:#707376;
+}
+
+#td2 {
+    /* border-right: solid; */
+    border-color:#707376;
+}
+
+/* #td3 {
+    border-right: solid;
+    border-color:#707376;
+}
+ */
+td {
+    vertical-align: bottom;
+    padding: 5px 30px;
+} 
+
+#keywords {
+    padding-top: 1rem;
+}

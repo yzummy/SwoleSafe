@@ -37,7 +37,7 @@ class MyModal extends React.Component {
         const { name } = this.state
         return (
             <div>
-                <Button type="primary" onClick={this.showModal}>Build Profile</Button>
+                <Button type="primary" onClick={this.showModal}>Start Building Your Own Workout Routine</Button>
                 <Modal 
                     className="profileModal"
                     title="Build your profile"
